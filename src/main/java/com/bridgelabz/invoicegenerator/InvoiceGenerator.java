@@ -13,8 +13,12 @@ public class InvoiceGenerator {
 	}
 
 	public double calculateFare(Ride[] rides) {
-		// TODO Auto-generated method stub
-		return 0;
+		double totalFare = 0;
+		for(Ride ride : rides) {
+			double fare = this.calculateFare(ride.getDistance(), ride.getTime());
+			totalFare += fare;
+		}
+		return totalFare;
 	}
 
 }
