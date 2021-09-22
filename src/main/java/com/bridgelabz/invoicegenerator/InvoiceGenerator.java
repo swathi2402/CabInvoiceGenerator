@@ -12,4 +12,9 @@ public class InvoiceGenerator {
 		return Math.max(totalFare, MINIMUM_FARE);
 	}
 
+	public double calculateFare(Ride[] rides) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
