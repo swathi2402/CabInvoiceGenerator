@@ -1,15 +1,20 @@
 package com.bridgelabz.invoicegenerator;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class RideRepository {
 
-	public void addUserRides(int i, Ride[] ridesForUser1) {
-		// TODO Auto-generated method stub
-		
+	Map<Integer, Ride[]> ridesRepository = new HashMap<Integer, Ride[]>();
+
+	public void addUserRides(int userId, Ride[] ridesOfUser) {
+
+		ridesRepository.put(userId, ridesOfUser);
 	}
 
-	public Ride[] getUserRides(int i) {
-		// TODO Auto-generated method stub
-		return null;
+	public Ride[] getUserRides(int userId) {
+
+		return ridesRepository.get(userId);
 	}
 
 }

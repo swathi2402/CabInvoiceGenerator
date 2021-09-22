@@ -50,7 +50,7 @@ public class InvoiceServiceTest {
 
 		Ride[] rides = rideRepository.getUserRides(1);
 		InvoiceSummary summary = invoiceGenerator.calculateFare(rides);
-		InvoiceSummary expectedSummary = new InvoiceSummary(2, 60.0);
+		InvoiceSummary expectedSummary = new InvoiceSummary(2, 30.0);
 		assertEquals(expectedSummary, summary);
 	}
 }
