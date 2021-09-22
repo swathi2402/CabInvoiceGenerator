@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.bridgelabz.invoicegenerator.Ride.RideType;
+
 public class InvoiceServiceTest {
 
 	InvoiceGenerator invoiceGenerator = null;
@@ -32,7 +34,7 @@ public class InvoiceServiceTest {
 
 	@Test
 	public void givenMultipleRides_ShouldReturnInvoiceSummary() {
-		Ride[] rides = { new Ride(2.0, 5), new Ride(0.1, 1) };
+		Ride[] rides = { new Ride(2.0, 5, RideType.NORMAL_RIDE), new Ride(0.1, 1, RideType.PREMIUM_RIDE) };
 		InvoiceSummary fare = invoiceGenerator.calculateFare(rides);
 		InvoiceSummary expected = new InvoiceSummary(2, 30.0);
 		assertEquals(expected, fare);
@@ -42,15 +44,31 @@ public class InvoiceServiceTest {
 	public void givenUserID_shouldReturnInvoiceSummary() {
 		RideRepository rideRepository = new RideRepository();
 
-		Ride[] ridesForUser1 = { new Ride(2.0, 5), new Ride(0.1, 1) };
+		Ride[] ridesForUser1 = { new Ride(2.0, 5, RideType.NORMAL_RIDE), new Ride(0.1, 1, RideType.PREMIUM_RIDE) };
 		rideRepository.addUserRides(1, ridesForUser1);
 
-		Ride[] ridesForUser2 = { new Ride(5.0, 5), new Ride(0.1, 1) };
+		Ride[] ridesForUser2 = { new Ride(2.0, 5, RideType.NORMAL_RIDE), new Ride(0.1, 1, RideType.PREMIUM_RIDE) };
 		rideRepository.addUserRides(2, ridesForUser2);
 
 		Ride[] rides = rideRepository.getUserRides(1);
 		InvoiceSummary summary = invoiceGenerator.calculateFare(rides);
 		InvoiceSummary expectedSummary = new InvoiceSummary(2, 30.0);
+		assertEquals(expectedSummary, summary);
+	}
+	
+	@Test
+	public void givenUserID_shouldReturnInvoiceSummary_WhichIncludesRideTypes() {
+		RideRepository rideRepository = new RideRepository();
+
+		Ride[] ridesForUser1 = { new Ride(2.0, 5, RideType.NORMAL_RIDE), new Ride(0.1, 1, RideType.PREMIUM_RIDE) };
+		rideRepository.addUserRides(1, ridesForUser1);
+
+		Ride[] ridesForUser2 = { new Ride(2.0, 5, RideType.NORMAL_RIDE), new Ride(0.1, 1, RideType.PREMIUM_RIDE) };
+		rideRepository.addUserRides(2, ridesForUser2);
+
+		Ride[] rides = rideRepository.getUserRides(1);
+		InvoiceSummary summary = invoiceGenerator.calculateFare(rides);
+		InvoiceSummary expectedSummary = new InvoiceSummary(2, 45.0);
 		assertEquals(expectedSummary, summary);
 	}
 }
